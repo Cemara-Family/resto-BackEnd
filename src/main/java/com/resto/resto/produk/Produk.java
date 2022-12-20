@@ -2,14 +2,19 @@ package com.resto.resto.produk;
 
 import java.io.Serializable;
 import java.sql.Blob;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+
+import com.resto.resto.pemesanan.Pemesanan;
 
 
 @Entity
@@ -36,18 +41,24 @@ public class Produk implements Serializable {
     private Long Harga;
 
     @Column(length = 20)
-    private Blob Gambar;
+    private String Gambar;
 
-    public Produk(int idMenu, String menu, String jenisMenu, int stok, Long harga, Blob gambar) {
+    @OneToMany
+    @JoinColumn(name = "id_pemesanan")
+    private Set<Pemesanan> id_pemesanan;
+    
+    public Produk(){}
+
+    public Produk(int idMenu, @NotEmpty(message = "Menu is Required") String menu, String jenisMenu, int stok,
+            Long harga, String gambar, Set<Pemesanan> id_pemesanan) {
         this.idMenu = idMenu;
         Menu = menu;
         this.jenisMenu = jenisMenu;
         Stok = stok;
         Harga = harga;
         Gambar = gambar;
+        this.id_pemesanan = id_pemesanan;
     }
-
-    public Produk(){}
 
     public static long getSerialversionuid() {
         return serialVersionUID;
@@ -93,13 +104,24 @@ public class Produk implements Serializable {
         Harga = harga;
     }
 
-    public Blob getGambar() {
+    public String getGambar() {
         return Gambar;
     }
 
-    public void setGambar(Blob gambar) {
+    public void setGambar(String gambar) {
         Gambar = gambar;
     }
+
+    public Set<Pemesanan> getId_pemesanan() {
+        return id_pemesanan;
+    }
+
+    public void setId_pemesanan(Set<Pemesanan> id_pemesanan) {
+        this.id_pemesanan = id_pemesanan;
+    }
+
+    
+    
 
     
     

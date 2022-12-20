@@ -16,7 +16,7 @@ public class UserServices {
         return userRepo.save(user);
     }
     public User update(User user){
-        User result = findOne(user.getId());
+        User result = findOne(user.getIdUser());
         result.setAlamat(user.getAlamat());
         result.setBirthdate(user.getBirthdate());
         result.setFullname(user.getFullname());
@@ -24,7 +24,7 @@ public class UserServices {
         result.setNoTelp(user.getNoTelp());
         result.setPassword(user.getPassword());
         result.setUsername(user.getUsername());
-        result.setId(user.getId());
+        result.setIdUser(user.getIdUser());
 
         return result;
     }

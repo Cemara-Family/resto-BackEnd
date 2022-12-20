@@ -1,13 +1,18 @@
 package com.resto.resto.pemesanan;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.resto.resto.user.User;
 
 @Entity
 @Table(name = "pemesanan")
@@ -22,16 +27,17 @@ public class Pemesanan implements Serializable{
     @Column(columnDefinition = "DATE")
     private String tanggal_pemesanan;
 
-    @Column(length = 50)
-    private int total_belanja;
-
+    @OneToMany
+    @JoinColumn(name = "idUser")
+    private Set<User> idUser;
+    
     public Pemesanan() {
     }
 
-    public Pemesanan(int id_pemesanan, String tanggal_pemesanan, int total_belanja) {
+    public Pemesanan(int id_pemesanan, String tanggal_pemesanan, Set<User> idUser) {
         this.id_pemesanan = id_pemesanan;
         this.tanggal_pemesanan = tanggal_pemesanan;
-        this.total_belanja = total_belanja;
+        this.idUser = idUser;
     }
 
     public static long getSerialversionuid() {
@@ -54,13 +60,17 @@ public class Pemesanan implements Serializable{
         this.tanggal_pemesanan = tanggal_pemesanan;
     }
 
-    public int getTotal_belanja() {
-        return total_belanja;
+    public Set<User> getIdUser() {
+        return idUser;
     }
 
-    public void setTotal_belanja(int total_belanja) {
-        this.total_belanja = total_belanja;
+    public void setIdUser(Set<User> idUser) {
+        this.idUser = idUser;
     }
+    
 
+   
+    
+    
     
 }

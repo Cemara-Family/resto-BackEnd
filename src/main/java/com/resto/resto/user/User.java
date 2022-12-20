@@ -19,7 +19,7 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int idUser;
 
     @Column(length = 20)
     @NotEmpty(message = "Username is required")
@@ -44,11 +44,13 @@ public class User implements Serializable {
     @Column(length = 30)
     private String noTelp;
 
+    
+
     public User(){}
 
-    public User(int id, String username, String password, String fullname, String jenis_kelamin, String birthdate,
+    public User(int idUser, String username, String password, String fullname, String jenis_kelamin, String birthdate,
             String alamat, String noTelp) {
-        this.id = id;
+        this.idUser = idUser;
         this.username = username;
         this.password = password;
         this.fullname = fullname;
@@ -62,12 +64,12 @@ public class User implements Serializable {
         return serialVersionUID;
     }
 
-    public int getId() {
-        return id;
+    public int getIdUser() {
+        return idUser;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
     }
 
     public String getUsername() {
