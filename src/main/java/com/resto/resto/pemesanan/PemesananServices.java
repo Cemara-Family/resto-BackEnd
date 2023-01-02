@@ -5,6 +5,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.resto.resto.dto.PemesananProduk;
+
 @Service
 @Transactional
 
@@ -30,4 +32,7 @@ public class PemesananServices {
         ;
     }
 
+    public void order(int id_pemesanan, int id_menu, int quantity) {
+        pemesananRepo.order(id_pemesanan, id_menu, quantity);
+    }
 }

@@ -9,15 +9,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.resto.resto.produk.Produk;
 import com.resto.resto.user.User;
 
 @Entity
 @Table(name = "pemesanan")
-public class Pemesanan implements Serializable{
-    
+public class Pemesanan implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -27,21 +31,26 @@ public class Pemesanan implements Serializable{
     @Column(columnDefinition = "DATE")
     private String tanggal_pemesanan;
 
-    @OneToMany
-    @JoinColumn(name = "idUser")
-    private Set<User> idUser;
-    
+    @Column(length = 11)
+    // @OneToMany
+    // @JoinColumn(name = "id_user")
+    private int id_user;
+
+    @ManyToMany
+    @JoinTable(name = "pemesanan_produk", joinColumns = @JoinColumn(name = "id_pemesanan"), inverseJoinColumns = @JoinColumn(name = "id_menu")
+
+    )
+
+    private Set<Produk> produks;
+
     public Pemesanan() {
     }
 
-    public Pemesanan(int id_pemesanan, String tanggal_pemesanan, Set<User> idUser) {
+    public Pemesanan(int id_pemesanan, String tanggal_pemesanan, int id_user, Set<Produk> produks) {
         this.id_pemesanan = id_pemesanan;
         this.tanggal_pemesanan = tanggal_pemesanan;
-        this.idUser = idUser;
-    }
-
-    public static long getSerialversionuid() {
-        return serialVersionUID;
+        this.id_user = id_user;
+        this.produks = produks;
     }
 
     public int getId_pemesanan() {
@@ -60,17 +69,20 @@ public class Pemesanan implements Serializable{
         this.tanggal_pemesanan = tanggal_pemesanan;
     }
 
-    public Set<User> getIdUser() {
-        return idUser;
+    public int getId_user() {
+        return id_user;
     }
 
-    public void setIdUser(Set<User> idUser) {
-        this.idUser = idUser;
+    public void setId_user(int id_user) {
+        this.id_user = id_user;
     }
-    
 
-   
-    
-    
-    
+    public Set<Produk> getProduks() {
+        return produks;
+    }
+
+    public void setProduks(Set<Produk> produks) {
+        this.produks = produks;
+    }
+
 }

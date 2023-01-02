@@ -19,46 +19,45 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.resto.resto.dto.Auth;
 import com.resto.resto.dto.ResponseData;
 
 @RestController
 @RequestMapping("/api/user")
-@CrossOrigin (origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
-    
+
     @Autowired
     private UserServices userServices;
 
     @PostMapping
     // public User posUser(@RequestBody User user){
-    //     return userServices.save(user);
+    // return userServices.save(user);
     // }
 
-    public ResponseEntity<ResponseData<User>> postUser (@Valid @RequestBody 
-    User user, Errors errors){
+    public ResponseEntity<ResponseData<User>> postUser(@Valid @RequestBody User user, Errors errors) {
         ResponseData<User> responseData = new ResponseData<>();
-        if(errors.hasErrors()){
-            for(ObjectError error : errors.getAllErrors()){
+        if (errors.hasErrors()) {
+            for (ObjectError error : errors.getAllErrors()) {
                 responseData.getMessage().add(error.getDefaultMessage());
             }
             responseData.setResult(false);
             responseData.setData(null);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
         }
         responseData.setResult(true);
         List<User> value = new ArrayList<>();
         value.add(userServices.save(user));
         responseData.setData(value);
         return ResponseEntity.ok(responseData);
-        
+
     }
+
     @GetMapping
     // public Iterable<User> fetchUser(){
-    //     return userServices.findAll();
+    // return userServices.findAll();
     // }
-    public ResponseEntity<ResponseData<User>> fetchUser(){
+    public ResponseEntity<ResponseData<User>> fetchUser() {
         ResponseData<User> responseData = new ResponseData<>();
         try {
             responseData.setResult(true);
@@ -74,9 +73,9 @@ public class UserController {
 
     @GetMapping("/{id}")
     // public User fetchUserById(@PathVariable("id") int id){
-    //     return userServices.findOne(id);
+    // return userServices.findOne(id);
     // }
-    public ResponseEntity<ResponseData<User>>fetchUserById(@PathVariable("id") int id){
+    public ResponseEntity<ResponseData<User>> fetchUserById(@PathVariable("id") int id) {
         ResponseData<User> responseData = new ResponseData<>();
 
         try {
@@ -94,39 +93,37 @@ public class UserController {
 
     @PutMapping
     // public User updatUser(@RequestBody User user){
-    //     return userServices.save(user);
+    // return userServices.save(user);
     // }
     public ResponseEntity<ResponseData<User>> updateUser(
-        @Valid @RequestBody User user, Errors errors){
-            ResponseData<User> responseData = new ResponseData<>();
-            if(errors.hasErrors()){
-                for(ObjectError error : errors.getAllErrors()){
-                    responseData.getMessage().add(error.getDefaultMessage());
-                }
-                responseData.setResult(false);
-                responseData.setData(null);
-              return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(responseData);
+            @Valid @RequestBody User user, Errors errors) {
+        ResponseData<User> responseData = new ResponseData<>();
+        if (errors.hasErrors()) {
+            for (ObjectError error : errors.getAllErrors()) {
+                responseData.getMessage().add(error.getDefaultMessage());
             }
-            try {
-                responseData.setResult(true);
-                List<User> value = new ArrayList<>();
-                value.add(userServices.update(user));
-                responseData.setData(value);
-                return ResponseEntity.ok(responseData);
-            } catch (Exception e) {
-                // TODO: handle exception
-                responseData.getMessage().add("Id is required");
-                responseData.setResult(false);
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
-
-            }
+            responseData.setResult(false);
+            responseData.setData(null);
+            return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(responseData);
         }
+        try {
+            responseData.setResult(true);
+            List<User> value = new ArrayList<>();
+            value.add(userServices.update(user));
+            responseData.setData(value);
+            return ResponseEntity.ok(responseData);
+        } catch (Exception e) {
+            // TODO: handle exception
+            responseData.getMessage().add("Id is required");
+            responseData.setResult(false);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
 
-   
+        }
+    }
 
     @DeleteMapping("/{id}")
     // public void deleteUserById(@PathVariable("id") int id){
-    //     userServices.removeOne(id);
+    // userServices.removeOne(id);
     // }
     public ResponseEntity<ResponseData<Void>> deleteUserById(@PathVariable("id") int id) {
         ResponseData<Void> responseData = new ResponseData<>();
@@ -140,21 +137,24 @@ public class UserController {
         } catch (Exception e) {
             responseData.setResult(false);
             responseData.getMessage().add(e.getMessage());
-            
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
         }
     }
+
     @PostMapping("/auth")
-    public ResponseEntity<ResponseData<User>> getUserAuth(@RequestBody Auth auth){
+    public ResponseEntity<ResponseData<User>> getUserAuth(@RequestBody Auth auth) {
         ResponseData<User> responseData = new ResponseData<>();
 
         System.out.println(auth.getUsername());
         System.out.println(auth.getPassword());
 
         try {
-            Iterable<User> value = userServices.findAuth(auth.getUsername(), auth.getPassword());
+            List<User> value = new ArrayList<>();
+            User user = userServices.findAuth(auth.getUsername(), auth.getPassword());
+            System.out.println(user.getFullname());
             responseData.setResult(true);
+            value.add(user);
             responseData.getMessage();
             responseData.setData(value);
             return ResponseEntity.ok(responseData);
@@ -171,14 +171,14 @@ public class UserController {
 
     // @PostMapping("/register")
     // public User getUserLoginAuth(@Valid @RequestBody User user, Errors errors){
-    //     ResponseData<User> responseData = new ResponseData<>();
-    //         if(errors.hasErrors()) {
-    //             for(ObjectError error : errors.getAllErrors()){
-    //                 System.out.println(error.getDefaultMessage());
-    //             }
+    // ResponseData<User> responseData = new ResponseData<>();
+    // if(errors.hasErrors()) {
+    // for(ObjectError error : errors.getAllErrors()){
+    // System.out.println(error.getDefaultMessage());
+    // }
 
-    //             throw new RuntimeException("Akun Gagal Terdaftar")
-    //         }
-    //         return userServices.save(user);
+    // throw new RuntimeException("Akun Gagal Terdaftar")
+    // }
+    // return userServices.save(user);
     // }
 }

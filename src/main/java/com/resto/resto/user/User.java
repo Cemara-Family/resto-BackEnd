@@ -1,25 +1,30 @@
 package com.resto.resto.user;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
+import com.resto.resto.pemesanan.Pemesanan;
 
 @Entity
 @Table(name = "user")
 public class User implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idUser;
+    private int id_user;
 
     @Column(length = 20)
     @NotEmpty(message = "Username is required")
@@ -44,13 +49,17 @@ public class User implements Serializable {
     @Column(length = 30)
     private String noTelp;
 
-    
+    @OneToMany
+    @JoinColumn(name = "id_user")
+    private Set<Pemesanan> pemesanans;
 
-    public User(){}
+    public User() {
+    }
 
-    public User(int idUser, String username, String password, String fullname, String jenis_kelamin, String birthdate,
-            String alamat, String noTelp) {
-        this.idUser = idUser;
+    public User(int id_user, @NotEmpty(message = "Username is required") String username,
+            @NotEmpty(message = "Password is required") String password, String fullname, String jenis_kelamin,
+            String birthdate, String alamat, String noTelp, Set<Pemesanan> pemesanans) {
+        this.id_user = id_user;
         this.username = username;
         this.password = password;
         this.fullname = fullname;
@@ -58,18 +67,15 @@ public class User implements Serializable {
         this.birthdate = birthdate;
         this.alamat = alamat;
         this.noTelp = noTelp;
+        this.pemesanans = pemesanans;
     }
 
-    public static long getSerialversionuid() {
-        return serialVersionUID;
+    public int getId_user() {
+        return id_user;
     }
 
-    public int getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+    public void setId_user(int id_user) {
+        this.id_user = id_user;
     }
 
     public String getUsername() {
@@ -127,6 +133,13 @@ public class User implements Serializable {
     public void setNoTelp(String noTelp) {
         this.noTelp = noTelp;
     }
-    
-    
+
+    public Set<Pemesanan> getPemesanans() {
+        return pemesanans;
+    }
+
+    public void setPemesanans(Set<Pemesanan> pemesanans) {
+        this.pemesanans = pemesanans;
+    }
+
 }

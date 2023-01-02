@@ -16,11 +16,10 @@ import javax.validation.constraints.NotEmpty;
 
 import com.resto.resto.pemesanan.Pemesanan;
 
-
 @Entity
 @Table(name = "produk")
 public class Produk implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -43,25 +42,17 @@ public class Produk implements Serializable {
     @Column(length = 20)
     private String Gambar;
 
-    @OneToMany
-    @JoinColumn(name = "id_pemesanan")
-    private Set<Pemesanan> id_pemesanan;
-    
-    public Produk(){}
+    public Produk() {
+    }
 
     public Produk(int idMenu, @NotEmpty(message = "Menu is Required") String menu, String jenisMenu, int stok,
-            Long harga, String gambar, Set<Pemesanan> id_pemesanan) {
+            Long harga, String gambar) {
         this.idMenu = idMenu;
         Menu = menu;
         this.jenisMenu = jenisMenu;
         Stok = stok;
         Harga = harga;
         Gambar = gambar;
-        this.id_pemesanan = id_pemesanan;
-    }
-
-    public static long getSerialversionuid() {
-        return serialVersionUID;
     }
 
     public int getIdMenu() {
@@ -112,17 +103,4 @@ public class Produk implements Serializable {
         Gambar = gambar;
     }
 
-    public Set<Pemesanan> getId_pemesanan() {
-        return id_pemesanan;
-    }
-
-    public void setId_pemesanan(Set<Pemesanan> id_pemesanan) {
-        this.id_pemesanan = id_pemesanan;
-    }
-
-    
-    
-
-    
-    
 }
