@@ -69,7 +69,7 @@ public class ProdukController {
         }
     }
      @GetMapping("/{id}")
-    public ResponseEntity<ResponseData<Produk>> fetchProgramsById(@PathVariable("id") int id) {
+    public ResponseEntity<ResponseData<Produk>> getMenuById(@PathVariable("id") int id) {
         ResponseData<Produk> responseData = new ResponseData<>();
         try {
             responseData.setResult(true);
