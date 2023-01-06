@@ -68,20 +68,20 @@ public class ProdukController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
         }
     }
-    @GetMapping("/{idMenu}")
-    // public Produk fetchProdukById(@PathVariable("idMenu") int idMenu){
-    //     return produkServices.findOne(idMenu);
-    // }
-    public ResponseEntity<ResponseData<Produk>> fetchProdukByIdMenu(){
+     @GetMapping("/{id}")
+    public ResponseEntity<ResponseData<Produk>> fetchProgramsById(@PathVariable("id") int id) {
         ResponseData<Produk> responseData = new ResponseData<>();
         try {
             responseData.setResult(true);
-            Iterable<Produk> value = produkServices.findAll();
+            List<Produk> value = new ArrayList<>();
+            value.add(produkServices.findOne(id));
             responseData.setData(value);
+
             return ResponseEntity.ok(responseData);
-        } catch (Exception e) {
+        } catch (Exception ex) {
             responseData.setResult(false);
-            responseData.getMessage().add(e.getMessage());
+            responseData.getMessage().add(ex.getMessage());
+
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
         }
     }
